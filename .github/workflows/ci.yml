@@ -22,7 +22,6 @@ jobs:
     
     env:
       RAILS_ENV: test
-      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -48,12 +47,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install packages
         run: |
-          yarn install --pure-lockfile
-      - name: Setup Code Climate test-reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build        
+          yarn install --pure-lockfile   
       - name: Setup Database
         run: |
           cp .github/test_db/config/database.yml config/database.yml
@@ -76,6 +70,3 @@ jobs:
         uses: rootstrap/check_untracked_changes@v1
         with:
           path: "./app/ ./spec/"
-      - name: Report to CodeClimate
-        run: |
-          ./cc-test-reporter after-build --exit-code 0
