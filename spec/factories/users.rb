@@ -21,6 +21,7 @@
 #  provider               :string           default("email"), not null
 #  uid                    :string           default(""), not null
 #  tokens                 :json
+#  description            :text
 #
 # Indexes
 #
@@ -31,11 +32,13 @@
 
 FactoryBot.define do
   factory :user do
-    email      { Faker::Internet.unique.email }
-    password   { Faker::Internet.password(min_length: 8) }
-    username   { Faker::Internet.unique.user_name }
-    first_name { Faker::Name.unique.name }
-    last_name  { Faker::Name.unique.last_name }
-    uid        { Faker::Internet.uuid }
+    email       { Faker::Internet.unique.email }
+    password    { Faker::Internet.password(min_length: 8) }
+    username    { Faker::Internet.unique.user_name }
+    first_name  { Faker::Name.unique.name }
+    last_name   { Faker::Name.unique.last_name }
+    uid         { Faker::Internet.uuid }
+    description { Faker::Lorem.paragraph }
+    is_npo?     { Faker::Boolean.boolean }
   end
 end
