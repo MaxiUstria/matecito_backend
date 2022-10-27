@@ -39,5 +39,6 @@ FactoryBot.define do
     last_name   { Faker::Name.unique.last_name }
     uid         { Faker::Internet.uuid }
     description { Faker::Lorem.paragraph }
+    is_npo?     { Faker::Boolean.boolean }
   end
 end
