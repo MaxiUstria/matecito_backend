@@ -22,12 +22,14 @@
 #  uid                    :string           default(""), not null
 #  tokens                 :json
 #  description            :text
+#  is_npo?                :boolean
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#  index_users_on_username              (username) UNIQUE
 #
 
 FactoryBot.define do
