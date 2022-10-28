@@ -16,22 +16,22 @@
 #
 class SocialNetwork < ApplicationRecord
   REGEXP = {
-    'facebook': %r{\Ahttps://www.facebook.com/.+\z},
-    'twitter': %r{\Ahttps://twitter.com/.+\z},
-    'linkedin': %r{\Ahttps://www.linkedin.com/in/.+\z},
-    'github': %r{\Ahttps://github.com/.+\z},
-    'instagram': %r{\Ahttps://www.instagram.com/.+\z},
-    'youtube': %r{\Ahttps://www.youtube.com/.+\z},
-    'tiktok': %r{\Ahttps://www.tiktok.com/.+\z},
-    'twitch': %r{\Ahttps://www.twitch.tv/.+\z},
-    'onlyfans': %r{\Ahttps://onlyfans.com/.+\z}
+    facebook: %r{\Ahttps://www.facebook.com/.+\z},
+    twitter: %r{\Ahttps://twitter.com/.+\z},
+    linkedin: %r{\Ahttps://www.linkedin.com/in/.+\z},
+    github: %r{\Ahttps://github.com/.+\z},
+    instagram: %r{\Ahttps://www.instagram.com/.+\z},
+    youtube: %r{\Ahttps://www.youtube.com/.+\z},
+    tiktok: %r{\Ahttps://www.tiktok.com/.+\z},
+    twitch: %r{\Ahttps://www.twitch.tv/.+\z},
+    onlyfans: %r{\Ahttps://onlyfans.com/.+\z}
   }.freeze
 
   belongs_to :user
 
   validates :url, presence: true
   validates :app, presence: true
-  
+
   before_save :url_match_regexp
 
   enum app: { facebook: 0, twitter: 1, instagram: 2, linkedin: 3, youtube: 4, tiktok: 5,

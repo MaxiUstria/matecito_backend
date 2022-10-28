@@ -25,7 +25,7 @@ RSpec.describe SocialNetwork, type: :model do
       let!(:social_network) { build :social_network, url: 'https://www./matecito_app' }
 
       it 'is not valid' do
-       expect(social_network.save).to be_falsey
+        expect(social_network.save).to be_falsey
       end
     end
   end
