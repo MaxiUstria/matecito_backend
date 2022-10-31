@@ -6,6 +6,7 @@ gem 'rails', '~> 7.0.3'
 
 gem 'activeadmin', '~> 2.9'
 gem 'active_storage_base64', '~> 2.0.0'
+gem 'activestorage-validator'
 gem 'arctic_admin', '~> 3.3.0'
 gem 'aws-sdk-s3', '~> 1.75', require: false
 gem 'bootsnap', '~> 1.4', '>= 1.4.5'

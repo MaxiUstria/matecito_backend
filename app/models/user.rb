@@ -40,6 +40,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :social_networks, dependent: :destroy
+  has_many :posts, dependent: :destroy
 
   validates :uid, uniqueness: { scope: :provider }
 

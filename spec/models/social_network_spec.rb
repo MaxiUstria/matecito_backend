@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_social_networks_on_user_id  (user_id)
+#  index_social_networks_on_user_id          (user_id)
+#  index_social_networks_on_user_id_and_app  (user_id,app) UNIQUE
 #
 require 'rails_helper'
 
