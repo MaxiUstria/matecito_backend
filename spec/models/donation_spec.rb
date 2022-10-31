@@ -25,7 +25,6 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to validate_presence_of(:amount) }
     it { is_expected.to validate_presence_of(:currency) }
     it { is_expected.to validate_length_of(:message).is_at_most(500) }
-    it { is_expected.to validate_presence_of(:beneficiary) }
   end
 
   context 'when the donation is a user donation' do
