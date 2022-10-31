@@ -42,7 +42,12 @@ class User < ApplicationRecord
   has_many :social_networks, dependent: :destroy
   has_many :posts, dependent: :destroy
 
+  has_one_attached :avatar
+  has_one_attached :banner
+
   validates :uid, uniqueness: { scope: :provider }
+  validates :avatar, blob: { content_type: :image, size_range: 1..(5.megabytes) }
+  validates :banner, blob: { content_type: :image, size_range: 1..(5.megabytes) }
 
   before_validation :init_uid
 
