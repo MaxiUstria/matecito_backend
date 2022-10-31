@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_31_071448) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_31_202332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -75,6 +75,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_31_071448) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "donations", force: :cascade do |t|
+    t.integer "amount", null: false
+    t.string "currency", default: "UY", null: false
+    t.string "message"
+    t.bigint "beneficiary_id", null: false
+    t.bigint "donor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["beneficiary_id"], name: "index_donations_on_beneficiary_id"
+    t.index ["donor_id"], name: "index_donations_on_donor_id"
   end
 
   create_table "exception_hunter_error_groups", force: :cascade do |t|
@@ -157,6 +169,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_31_071448) do
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "donations", "users", column: "beneficiary_id"
+  add_foreign_key "donations", "users", column: "donor_id"
   add_foreign_key "exception_hunter_errors", "exception_hunter_error_groups", column: "error_group_id"
   add_foreign_key "posts", "users"
   add_foreign_key "social_networks", "users"

@@ -1,0 +1,2 @@
+class AnonymousDonation < Donation
+end
