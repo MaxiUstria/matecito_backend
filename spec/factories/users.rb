@@ -42,5 +42,17 @@ FactoryBot.define do
     uid         { Faker::Internet.uuid }
     description { Faker::Lorem.paragraph }
     is_npo?     { Faker::Boolean.boolean }
+
+    trait :with_images do
+      avatar do
+        Rack::Test::UploadedFile.new(Rails.root.join('spec', 'assets', 'avatar.png'),
+                                     'image/jpeg')
+      end
+
+      banner do
+        Rack::Test::UploadedFile.new(Rails.root.join('spec', 'assets', 'banner.jpeg'),
+                                     'image/jpeg')
+      end
+    end
   end
 end
