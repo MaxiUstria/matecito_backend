@@ -82,4 +82,12 @@ describe User do
       end
     end
   end
+
+  describe 'user with images' do
+    let!(:user) { create(:user) }
+
+    it 'user is valid' do
+      expect(user).to be_valid
+    end
+  end
 end
