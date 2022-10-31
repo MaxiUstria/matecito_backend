@@ -85,6 +85,8 @@ GEM
       activesupport (= 7.0.4)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
+    activestorage-validator (0.2.2)
+      rails (>= 6.0.4.1)
     activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -456,6 +458,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_base64 (~> 2.0.0)
   activeadmin (~> 2.9)
+  activestorage-validator
   annotate (~> 3.2, >= 3.0.3)
   arctic_admin (~> 3.3.0)
   aws-sdk-s3 (~> 1.75)
