@@ -41,6 +41,7 @@ class User < ApplicationRecord
 
   has_many :social_networks, dependent: :destroy
   has_many :posts, dependent: :destroy
+  has_many :user_settings, dependent: :destroy
 
   has_one_attached :avatar
   has_one_attached :banner
@@ -50,6 +51,8 @@ class User < ApplicationRecord
   validates :banner, blob: { content_type: :image, size_range: 1..(5.megabytes) }
 
   before_validation :init_uid
+
+  after_create :set_default_user_settings
 
   def full_name
     return username if first_name.blank?
@@ -68,5 +71,17 @@ class User < ApplicationRecord
 
   def init_uid
     self.uid = email if uid.blank? && provider == 'email'
+  end
+
+  def set_default_user_settings
+    user_settings.create!(category: UserSetting::USER_SETTING_CATEGORIES[:matecito_default_value],
+                          value: '80')
+    user_settings.create!(
+      category: UserSetting::USER_SETTING_CATEGORIES[:default_thank_you_message],
+      value: 'Muchas gracias por tu donación!'
+    )
+  rescue StandardError => e
+    Sentry.capture_exception(e)
+    raise ActiveRecord::Rollback
   end
 end

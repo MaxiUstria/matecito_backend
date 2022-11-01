@@ -107,7 +107,7 @@ detectors:
       - "/[A-Z]/"
     accept: []
   UncommunicativeVariableName:
-    enabled: true
+    enabled: false
     exclude: []
     reject:
       - "/^.$/"
