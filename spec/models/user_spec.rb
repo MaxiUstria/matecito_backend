@@ -44,6 +44,15 @@ describe User do
     end
   end
 
+  describe 'associations' do
+    it { is_expected.to have_many(:social_networks).dependent(:destroy) }
+    it { is_expected.to have_many(:posts).dependent(:destroy) }
+    it { is_expected.to have_many(:user_settings).dependent(:destroy) }
+    it { is_expected.to have_many(:objectives).dependent(:destroy) }
+    it { is_expected.to have_one_attached(:avatar) }
+    it { is_expected.to have_one_attached(:banner) }
+  end
+
   context 'when was created with regular login' do
     let!(:user) { create(:user, first_name: nil, last_name: nil) }
     let(:full_name) { user.full_name }
