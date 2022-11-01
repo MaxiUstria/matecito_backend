@@ -80,8 +80,8 @@ class User < ApplicationRecord
       category: UserSetting::USER_SETTING_CATEGORIES[:default_thank_you_message],
       value: 'Muchas gracias por tu donación!'
     )
-  rescue StandardError => error
-    Sentry.capture_exception(error)
+  rescue StandardError => e
+    Sentry.capture_exception(e)
     raise ActiveRecord::Rollback
   end
 end
