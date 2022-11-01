@@ -3,7 +3,7 @@
 # Table name: user_settings
 #
 #  id         :bigint           not null, primary key
-#  category   :integer          default(0), not null
+#  category   :integer          default("matecito_default_value"), not null
 #  value      :string           not null
 #  user_id    :bigint           not null
 #  created_at :datetime         not null
