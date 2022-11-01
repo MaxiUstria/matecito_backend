@@ -90,4 +90,14 @@ describe User do
       expect(user).to be_valid
     end
   end
+
+  describe 'user callbacks' do
+    context 'after create' do
+      let!(:user) { create(:user) }
+
+      it 'creates user configs' do
+        expect(user.user_settings.count).to eq(2)
+      end
+    end
+  end
 end
