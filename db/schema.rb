@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_01_023651) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_02_221324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -60,6 +60,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_023651) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -155,6 +162,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_023651) do
     t.index ["user_id"], name: "index_social_networks_on_user_id"
   end
 
+  create_table "user_categories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_user_categories_on_category_id"
+    t.index ["user_id", "category_id"], name: "index_user_categories_on_user_id_and_category_id", unique: true
+    t.index ["user_id"], name: "index_user_categories_on_user_id"
+  end
+
   create_table "user_settings", force: :cascade do |t|
     t.integer "category", default: 0, null: false
     t.string "value", null: false
@@ -198,5 +215,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_01_023651) do
   add_foreign_key "objectives", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "social_networks", "users"
+  add_foreign_key "user_categories", "categories"
+  add_foreign_key "user_categories", "users"
   add_foreign_key "user_settings", "users"
 end

@@ -49,6 +49,9 @@ describe User do
     it { is_expected.to have_many(:posts).dependent(:destroy) }
     it { is_expected.to have_many(:user_settings).dependent(:destroy) }
     it { is_expected.to have_many(:objectives).dependent(:destroy) }
+    it { is_expected.to have_many(:categories).through(:user_categories) }
+    it { is_expected.to have_many(:user_categories).dependent(:destroy) }
+
     it { is_expected.to have_one_attached(:avatar) }
     it { is_expected.to have_one_attached(:banner) }
   end
