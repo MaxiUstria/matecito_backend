@@ -43,6 +43,8 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :user_settings, dependent: :destroy
   has_many :objectives, dependent: :destroy
+  has_many :user_categories, dependent: :destroy
+  has_many :categories, through: :user_categories
 
   has_one_attached :avatar
   has_one_attached :banner
