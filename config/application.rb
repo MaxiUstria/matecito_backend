@@ -33,6 +33,8 @@ module App
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.add_autoload_paths_to_load_path = false
+    config.active_job.queue_adapter = :sidekiq
+    Sidekiq.configure_server { |c| c.redis = { url: ENV.fetch('REDIS_URL', nil) } }
 
     ActionMailer::Base.smtp_settings = {
       address: 'smtp.sendgrid.net',

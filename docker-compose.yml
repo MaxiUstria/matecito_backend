@@ -13,8 +13,11 @@ services:
       - .:/src/myapp
     depends_on:
       - db
+      - redis
     links:
       - "db:db"
+    environment:
+      REDIS_URL: 'redis://redis:6379'
   db:
     image: postgres:11
     environment:
@@ -23,5 +26,22 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+  redis:
+    image: "redis"
+   # contenedor sidekiq
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    depends_on:
+      - redis
+    volumes:
+      - .:/src/myapp
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: 'redis://redis:6379'
+    entrypoint: bash -c "bundle exec sidekiq -C config/sidekiq.yml"
 volumes:
   db_data:
+  redis:
+    driver: local

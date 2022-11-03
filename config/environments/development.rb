@@ -75,7 +75,7 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Use async adapter for ActiveJob
-  config.active_job.queue_adapter = :async
+  config.active_job.queue_adapter = :sidekiq
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
