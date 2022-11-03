@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_03_033502) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_034731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -121,6 +121,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_033502) do
     t.index ["error_group_id"], name: "index_exception_hunter_errors_on_error_group_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "action", null: false
+    t.string "message", null: false
+    t.boolean "read", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_notifications_on_action"
+    t.index ["read"], name: "index_notifications_on_read"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "objectives", force: :cascade do |t|
     t.string "name", null: false
     t.string "description", null: false
@@ -222,6 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_033502) do
   add_foreign_key "donations", "users", column: "beneficiary_id"
   add_foreign_key "donations", "users", column: "donor_id"
   add_foreign_key "exception_hunter_errors", "exception_hunter_error_groups", column: "error_group_id"
+  add_foreign_key "notifications", "users"
   add_foreign_key "objectives", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "social_networks", "users"
