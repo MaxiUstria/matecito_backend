@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_02_221324) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_033502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -172,6 +172,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_02_221324) do
     t.index ["user_id"], name: "index_user_categories_on_user_id"
   end
 
+  create_table "user_followers", force: :cascade do |t|
+    t.bigint "follower_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_id", "user_id"], name: "index_user_followers_on_follower_id_and_user_id", unique: true
+    t.index ["follower_id"], name: "index_user_followers_on_follower_id"
+    t.index ["user_id"], name: "index_user_followers_on_user_id"
+  end
+
   create_table "user_settings", force: :cascade do |t|
     t.integer "category", default: 0, null: false
     t.string "value", null: false
@@ -217,5 +227,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_02_221324) do
   add_foreign_key "social_networks", "users"
   add_foreign_key "user_categories", "categories"
   add_foreign_key "user_categories", "users"
+  add_foreign_key "user_followers", "users"
+  add_foreign_key "user_followers", "users", column: "follower_id"
   add_foreign_key "user_settings", "users"
 end
