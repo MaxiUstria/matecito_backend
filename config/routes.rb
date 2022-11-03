@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -7,6 +9,9 @@ Rails.application.routes.draw do
     sessions: 'api/v1/sessions',
     passwords: 'api/v1/passwords'
   }
+  authenticate :admin_user do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
