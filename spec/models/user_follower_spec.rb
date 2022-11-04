@@ -27,4 +27,17 @@ RSpec.describe UserFollower, type: :model do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:follower).class_name('User') }
   end
+
+  describe 'callbacks' do
+    let(:follower) { create :user }
+    let(:user) { create :user }
+    let(:user_follower) { create :user_follower, follower:, user: }
+
+    it 'enqueues a job to create a notification' do
+      expect {
+        user_follower
+      }.to have_enqueued_job(CreateNotificationJob)
+        .with(user, 'new_follower', "#{follower.full_name} ha comenzado a seguirte!")
+    end
+  end
 end

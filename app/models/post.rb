@@ -21,4 +21,13 @@ class Post < ApplicationRecord
   validates :title, presence: true, length: { maximum: 50, minimum: 5 }
   validates :body, presence: true, length: { maximum: 5000, minimum: 10 }
   validates :image, blob: { content_type: :image, size_range: 1..(5.megabytes) }
+
+  after_create :create_notification
+
+  private
+
+  def create_notification
+    CreatePostNotificationJob.perform_later(user, 'new_post',
+                                            "#{user.full_name} ha publicado un nuevo post!")
+  end
 end

@@ -19,4 +19,13 @@ class UserFollower < ApplicationRecord
   belongs_to :follower, class_name: 'User'
 
   validates :follower, uniqueness: { scope: :user_id }
+
+  after_create :create_notification
+
+  private
+
+  def create_notification
+    CreateNotificationJob.perform_later(user, 'new_follower',
+                                        "#{follower.full_name} ha comenzado a seguirte!")
+  end
 end

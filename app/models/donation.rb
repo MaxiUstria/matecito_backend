@@ -23,4 +23,13 @@ class Donation < ApplicationRecord
   validates :amount, presence: true
   validates :currency, presence: true
   validates :message, length: { maximum: 500 }
+
+  after_create :create_notification
+
+  private
+
+  def create_notification
+    CreateNotificationJob.perform_later(beneficiary, 'new_donation',
+                                        "#{donor.full_name} ha donado #{amount} matecitos!")
+  end
 end
