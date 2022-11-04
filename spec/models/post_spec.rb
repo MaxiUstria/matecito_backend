@@ -39,4 +39,16 @@ RSpec.describe Post, type: :model do
       expect(Post.last(2)).to eq([post2, post3])
     end
   end
+
+  describe 'callbacks' do
+    let(:user) { create :user }
+    let(:post) { create :post, user: }
+
+    it 'enqueues a job to create a notification' do
+      expect {
+        post
+      }.to have_enqueued_job(CreatePostNotificationJob)
+        .with(user, 'new_post', "#{user.full_name} ha publicado un nuevo post!")
+    end
+  end
 end
