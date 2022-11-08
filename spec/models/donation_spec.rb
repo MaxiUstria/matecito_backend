@@ -19,6 +19,8 @@
 require 'rails_helper'
 
 RSpec.describe Donation, type: :model do
+  include ActiveJob::TestHelper
+
   describe 'validations' do
     subject { build :donation }
 
@@ -41,5 +43,24 @@ RSpec.describe Donation, type: :model do
     it { is_expected.not_to validate_presence_of(:donor) }
     it { is_expected.to be_valid }
     it { is_expected.to be_an_instance_of(AnonymousDonation) }
+  end
+
+  describe 'callbacks' do
+    subject { create :donation }
+    after do
+      clear_enqueued_jobs
+    end
+
+    it 'creates a notification' do
+      subject
+    end
+
+    context 'when beneficary has an active objective' do
+      let!(:objective) { create :objective }
+      it 'increases the objective counter' do
+        subject
+        expect(enqueued_jobs.size).to eq(2)
+      end
+    end
   end
 end
