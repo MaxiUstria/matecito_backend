@@ -51,10 +51,12 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_one_attached :banner
+  has_one_attached :intro_video
 
   validates :uid, uniqueness: { scope: :provider }
   validates :avatar, blob: { content_type: :image, size_range: 1..(5.megabytes) }
   validates :banner, blob: { content_type: :image, size_range: 1..(5.megabytes) }
+  validates :intro_video, blob: { content_type: :video, size_range: 1..(50.megabytes) }
 
   before_validation :init_uid
 
