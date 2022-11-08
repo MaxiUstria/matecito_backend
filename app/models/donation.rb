@@ -25,11 +25,17 @@ class Donation < ApplicationRecord
   validates :message, length: { maximum: 500 }
 
   after_create :create_notification
+  after_create :increase_objective_counter
 
   private
 
   def create_notification
     CreateNotificationJob.perform_later(beneficiary, 'new_donation',
-                                        "#{donor.full_name} ha donado #{amount} matecitos!")
+                                        "#{donor.present? ? donor.full_name : 'alguien'}
+                                         ha donado #{amount} matecitos!")
+  end
+
+  def increase_objective_counter
+    IncreaseObjectiveCounterJob.perform_later(beneficiary, self)
   end
 end
