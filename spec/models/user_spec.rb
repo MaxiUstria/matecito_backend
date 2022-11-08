@@ -51,9 +51,13 @@ describe User do
     it { is_expected.to have_many(:objectives).dependent(:destroy) }
     it { is_expected.to have_many(:categories).through(:user_categories) }
     it { is_expected.to have_many(:user_categories).dependent(:destroy) }
+    it { is_expected.to have_many(:followers).through(:user_followers).source(:follower) }
+    it { is_expected.to have_many(:user_followers).dependent(:destroy) }
+    it { is_expected.to have_many(:notifications).dependent(:destroy) }
 
     it { is_expected.to have_one_attached(:avatar) }
     it { is_expected.to have_one_attached(:banner) }
+    it { is_expected.to have_one_attached(:intro_video) }
   end
 
   context 'when was created with regular login' do
