@@ -1,7 +1,7 @@
 FROM ruby:3.1.2
 
 RUN apt-get update -qq && \
-    apt-get install -y build-essential libssl-dev nodejs libpq-dev less vim nano libsasl2-dev
+    apt-get install -y build-essential libssl-dev nodejs libpq-dev less vim nano libsasl2-dev cron
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -30,6 +30,8 @@ ADD yarn.lock ./
 RUN yarn install --check-files
 
 ADD . $APP_HOME
+
+CMD bash -c "bundle exec whenever --update-crontab && cron -f"
 
 EXPOSE 3000
 

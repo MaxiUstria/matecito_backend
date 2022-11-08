@@ -30,6 +30,7 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sidekiq'
 gem 'sprockets', '~> 3.7.2'
+gem 'whenever', require: false
 gem 'yaaf', '~> 2.2'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
