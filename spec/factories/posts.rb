@@ -8,6 +8,8 @@
 #  user_id    :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  url        :string
+#  category   :integer          default("standard"), not null
 #
 # Indexes
 #
@@ -17,6 +19,7 @@ FactoryBot.define do
   factory :post do
     title { Faker::Lorem.sentence(word_count: 3) }
     body { Faker::Lorem.paragraph }
+    category { 0 }
     image do
       Rack::Test::UploadedFile.new(Rails.root.join('spec', 'assets', 'image.jpeg'),
                                    'image/jpeg')

@@ -8,6 +8,8 @@
 #  user_id    :bigint           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  url        :string
+#  category   :integer          default("standard"), not null
 #
 # Indexes
 #
@@ -50,5 +52,12 @@ RSpec.describe Post, type: :model do
       }.to have_enqueued_job(CreatePostNotificationJob)
         .with(user, 'new_post', "#{user.full_name} ha publicado un nuevo post!")
     end
+  end
+
+  describe 'enums' do
+    it {
+      is_expected.to define_enum_for(:category).with_values({ standard: 0, video: 1, image: 2,
+                                                              audio: 3 })
+    }
   end
 end
