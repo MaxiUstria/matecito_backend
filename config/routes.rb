@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       resources :settings, only: [] do
         get :must_update, on: :collection
       end
+
+      resources :posts, only: %i[index show create update destroy]
     end
   end
 end
