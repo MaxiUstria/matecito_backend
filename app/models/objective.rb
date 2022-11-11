@@ -37,7 +37,8 @@ class Objective < ApplicationRecord
     state :canceled
 
     event :reached do
-      transitions from: :active, to: :goal_reached
+      transitions from: :active, to: :goal_reached, guard: :amount_reached?,
+                  after: :goal_reached_notification
     end
     event :not_reached do
       transitions from: :active, to: :goal_not_reached
@@ -61,5 +62,14 @@ class Objective < ApplicationRecord
 
     errors.add(:start_date, "can't be in the past")
     Sentry.capture_message("Objective start date can't be in the past")
+  end
+
+  def amount_reached?
+    current_amount >= target_amount
+  end
+
+  def goal_reached_notification
+    CreateNotificationJob.perform_later(user, 'goal_reached',
+                                        "¡Has alcanzado tu meta de #{target_amount} matecitos!")
   end
 end

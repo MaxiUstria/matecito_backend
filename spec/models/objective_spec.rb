@@ -40,14 +40,15 @@ RSpec.describe Objective, type: :model do
   end
 
   describe 'aasm' do
-    subject { build :objective }
+    let(:user) { create :user }
+    subject { build :objective, user:, current_amount: 100, target_amount: 100 }
 
     it { is_expected.to transition_from(:active).to(:goal_reached).on_event(:reached) }
     it { is_expected.to transition_from(:active).to(:goal_not_reached).on_event(:not_reached) }
     it { is_expected.to transition_from(:active).to(:canceled).on_event(:cancel) }
 
     context 'when state is goal_reached' do
-      subject { build :objective, state: 'goal_reached' }
+      subject { build :objective, state: 'goal_reached', current_amount: 100, target_amount: 100 }
 
       it { is_expected.not_to transition_from(:goal_reached).to(:active).on_event(:reached) }
       it {
@@ -106,6 +107,19 @@ RSpec.describe Objective, type: :model do
           expect(Sentry).not_to receive(:capture_message)
           subject.save!
         end
+      end
+    end
+  end
+
+  describe 'active job' do
+    context 'when objective is reached' do
+      let!(:objective) { create :objective, target_amount: 100, current_amount: 100 }
+
+      it 'sends a notification' do
+        objective.reached!
+
+        expect(enqueued_jobs.size).to eq(1)
+        expect(enqueued_jobs.last[:job]).to eq(CreateNotificationJob)
       end
     end
   end
