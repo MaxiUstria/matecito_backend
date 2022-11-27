@@ -1,9 +1,16 @@
 module Api
   module V1
     class UsersController < Api::V1::ApiController
-      before_action :auth_user
+      skip_before_action :authenticate_user!, only: %i[profile]
+      before_action :auth_user, except: %i[profile]
+      skip_after_action :verify_authorized
+      skip_after_action :verify_policy_scoped
 
       def show; end
+
+      def profile
+        @user = User.find_by!(username: params[:username])
+      end
 
       def update
         current_user.update!(user_params)
