@@ -8,6 +8,7 @@ module Api
       skip_after_action :verify_policy_scoped
 
       def index
+        byebug
         @posts = Post.where(user_id: params[:user_id]).includes([image_attachment: :blob])
       end
 
